@@ -2,8 +2,69 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BybitTrader.Pages.SettingsPage"
-             Title="Settings">
-    <VerticalStackLayout Padding="20">
-        <Label Text="Settings Page" FontSize="24" HorizontalOptions="Center"/>
-    </VerticalStackLayout>
+             Title="Settings"
+             Background="{StaticResource GradientBackground}">
+
+    <ScrollView WidthRequest="500">
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <Label Text="Settings" VerticalOptions="Center" HorizontalOptions="Center" TextColor="{StaticResource PrimaryTextColor}" FontSize="24"></Label>
+            <!-- API KEYS MANAGEMENT -->
+            <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10">
+                <VerticalStackLayout HorizontalOptions="Center">
+                    <Label Text="API Key Management" FontSize="18" TextColor="{StaticResource PrimaryTextColor}"/>
+                    <Entry x:Name="ApiKeyEntry" Placeholder="API Key" IsPassword="True" WidthRequest="300"/>
+                    <Entry x:Name="ApiSecretEntry" Placeholder="API Secret" IsPassword="True" WidthRequest="300"/>
+                    <HorizontalStackLayout HorizontalOptions="Center" Padding="10">
+                        <Button Text="Save Keys" Clicked="OnSaveApiKeysClicked" BackgroundColor="{StaticResource PurpleButton}" TextColor="White"/>
+                        <Button Text="Clear Keys" Clicked="OnClearApiKeysClicked" BackgroundColor="Red" TextColor="White" Margin="10,0,0,0"/>
+                    </HorizontalStackLayout>
+                    <Button Text="Test API Connection" Clicked="OnTestApiConnectionClicked" BackgroundColor="{StaticResource PurpleButton}" TextColor="White"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- THEME SELECTION -->
+            <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10">
+                <VerticalStackLayout>
+                    <Label Text="Theme Selection" FontSize="18" TextColor="{StaticResource PrimaryTextColor}"/>
+                    <Picker x:Name="ThemePicker" Title="Select Theme" SelectedIndexChanged="OnThemeChanged">
+                        <Picker.Items>
+                            <x:String>Dark</x:String>
+                            <x:String>Light</x:String>
+                        </Picker.Items>
+                    </Picker>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- DATA REFRESH INTERVAL -->
+            <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10">
+                <VerticalStackLayout>
+                    <Label Text="Data Refresh Interval" FontSize="18" TextColor="{StaticResource PrimaryTextColor}"/>
+                    <Picker x:Name="RefreshIntervalPicker" Title="Select Interval" SelectedIndexChanged="OnRefreshIntervalChanged">
+                        <Picker.Items>
+                            <x:String>5s</x:String>
+                            <x:String>10s</x:String>
+                            <x:String>30s</x:String>
+                        </Picker.Items>
+                    </Picker>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- NOTIFICATIONS & SECURITY -->
+            <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10">
+                <VerticalStackLayout>
+                    <Label Text="Notifications and Security" FontSize="18" TextColor="{StaticResource PrimaryTextColor}"/>
+                    <HorizontalStackLayout>
+                        <Switch x:Name="TradeAlertsSwitch" />
+                        <Label Text="Trade Alerts" FontSize="16" TextColor="{StaticResource SecondaryTextColor}" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                    <HorizontalStackLayout>
+                        <Switch x:Name="WebSocketAlertsSwitch" />
+                        <Label Text="WebSocket Notifications" FontSize="16" TextColor="{StaticResource SecondaryTextColor}" VerticalOptions="Center"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
+

@@ -50,7 +50,7 @@
                     <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10" Grid.Row="2" WidthRequest="220">
                         <VerticalStackLayout>
                             <Label Text="Tradingview Connection" FontSize="16" TextColor="{StaticResource SecondaryTextColor}"/>
-                            <Label x:Name="ApiConnectionLabel" Text="Not Connected" FontSize="16" TextColor="Red"/>
+                            <Label x:Name="TradingViewConnectionLabel" Text="Not Connected" FontSize="16" TextColor="Red"/>
                         </VerticalStackLayout>
                     </Frame>
 

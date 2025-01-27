@@ -145,7 +145,7 @@ namespace BybitTrader
                     'container_id': 'tradingview_12345',
                     'autosize': true,
                     'symbol': 'BYBIT:BTCUSDT',
-                    'interval': 'D',
+                    'interval': '60',
                     'timezone': 'Etc/UTC',
                     'theme': 'dark',
                     'style': '1',

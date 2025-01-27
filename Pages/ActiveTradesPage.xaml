@@ -2,9 +2,44 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BybitTrader.Pages.ActiveTradesPage"
-             Title="Active Trades">
+             Title="Open Trades"
+             Background="{StaticResource GradientBackground}">
+
     <VerticalStackLayout Padding="20">
-        <Label Text="Active Trades" FontSize="24" HorizontalOptions="Center"/>
-        <ListView x:Name="TradesListView"/>
+        <Label Text="Open Trades" FontSize="24" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center"/>
+
+        <!-- Open Trades Table -->
+        <Grid ColumnDefinitions="*,*,*,*,*,*,*" RowDefinitions="Auto, *" Padding="10" BackgroundColor="{StaticResource CardBackground}" ColumnSpacing="10" RowSpacing="10">
+            <!-- Table Headers -->
+            <Label Text="Asset" FontSize="16" FontAttributes="Bold" Grid.Row="0" Grid.Column="0" TextColor="{StaticResource SecondaryTextColor}" HorizontalOptions="Center"/>
+            <Label Text="Entry Price" FontSize="16" FontAttributes="Bold" Grid.Row="0" Grid.Column="1" TextColor="{StaticResource SecondaryTextColor}" HorizontalOptions="Center"/>
+            <Label Text="Market Price" FontSize="16" FontAttributes="Bold" Grid.Row="0" Grid.Column="2" TextColor="{StaticResource SecondaryTextColor}" HorizontalOptions="Center"/>
+            <Label Text="Unrealized PNL" FontSize="16" FontAttributes="Bold" Grid.Row="0" Grid.Column="3" TextColor="{StaticResource SecondaryTextColor}" HorizontalOptions="Center"/>
+            <Label Text="Take Profit" FontSize="16" FontAttributes="Bold" Grid.Row="0" Grid.Column="4" TextColor="{StaticResource SecondaryTextColor}" HorizontalOptions="Center"/>
+            <Label Text="Stop Loss" FontSize="16" FontAttributes="Bold" Grid.Row="0" Grid.Column="5" TextColor="{StaticResource SecondaryTextColor}" HorizontalOptions="Center"/>
+            <Label Text="Actions" FontSize="16" FontAttributes="Bold" Grid.Row="0" Grid.Column="6" TextColor="{StaticResource SecondaryTextColor}" HorizontalOptions="Center"/>
+
+            <!-- Trade Data List -->
+            <CollectionView x:Name="TradesCollectionView" Grid.Row="1" Grid.ColumnSpan="7">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnDefinitions="*,*,*,*,*,*,*" Padding="5" ColumnSpacing="10" RowSpacing="10">
+                            <Label Text="{Binding Asset}" FontSize="14" Grid.Column="0" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center"/>
+                            <Label Text="{Binding EntryPrice}" FontSize="14" Grid.Column="1" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center"/>
+                            <Label Text="{Binding MarketPrice}" FontSize="14" Grid.Column="2" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center"/>
+                            <Label Text="{Binding UnrealizedPNL}" FontSize="14" Grid.Column="3" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center"/>
+                            <Label Text="{Binding TakeProfit}" FontSize="14" Grid.Column="4" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center"/>
+                            <Label Text="{Binding StopLoss}" FontSize="14" Grid.Column="5" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center"/>
+
+                            <!-- Actions -->
+                            <HorizontalStackLayout Grid.Column="6" HorizontalOptions="Center">
+                                <Button Text="Modify" Clicked="OnModifyTradeClicked" BackgroundColor="{StaticResource PurpleButton}" TextColor="White" FontSize="12" Padding="5"/>
+                                <Button Text="Close" Clicked="OnCloseTradeClicked" BackgroundColor="Red" TextColor="White" FontSize="12" Padding="5" Margin="5,0,0,0"/>
+                            </HorizontalStackLayout>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
     </VerticalStackLayout>
 </ContentPage>

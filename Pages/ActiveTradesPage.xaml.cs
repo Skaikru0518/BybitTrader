@@ -6,4 +6,13 @@ public partial class ActiveTradesPage : ContentPage
 	{
 		InitializeComponent();
 	}
+	private void OnModifyTradeClicked(Object sender, EventArgs e)
+	{
+		return;
+	}
+
+	private void OnCloseTradeClicked(Object sender, EventArgs e)
+	{
+		return;
+	}
 }

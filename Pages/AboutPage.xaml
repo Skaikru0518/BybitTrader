@@ -2,10 +2,48 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BybitTrader.Pages.AboutPage"
-             Title="About">
+             Title="About"
+             Background="{StaticResource GradientBackground}">
 
-    <VerticalStackLayout Padding="20">
-        <Label Text="About the App" FontSize="24" HorizontalOptions="Center"/>
+    <VerticalStackLayout Padding="20" Spacing="15" WidthRequest="500">
+
+        <!-- Cím -->
+        <Label Text="About BybitTrader" FontSize="24" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center"/>
+
+        <!-- Alkalmazás Verzió -->
+        <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10">
+            <VerticalStackLayout>
+                <Label Text="App Version" FontSize="18" TextColor="{StaticResource SecondaryTextColor}"/>
+                <Label x:Name="AppVersionLabel" Text="1.0.0" FontSize="16" TextColor="{StaticResource PrimaryTextColor}"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Fejlesztői Információ -->
+        <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10">
+            <VerticalStackLayout>
+                <Label Text="Developer" FontSize="18" TextColor="{StaticResource SecondaryTextColor}"/>
+                <Label Text="Skaikru_" FontSize="16" TextColor="{StaticResource PrimaryTextColor}"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Kapcsolat -->
+        <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10">
+            <VerticalStackLayout>
+                <Label Text="Contact and Support" FontSize="18" TextColor="{StaticResource SecondaryTextColor}"/>
+                <Label Text="Email: support@bybittrader.com" FontSize="16" TextColor="{StaticResource PrimaryTextColor}"/>
+                <Label Text="Discord: skaikru_" FontSize="16" TextColor="{StaticResource PrimaryTextColor}"/>
+                <Label Text="GitHub: github.com/skaikru0518" FontSize="16" TextColor="{StaticResource PrimaryTextColor}"/>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Licenc Információ -->
+        <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10">
+            <VerticalStackLayout>
+                <Label Text="License" FontSize="18" TextColor="{StaticResource SecondaryTextColor}"/>
+                <Label Text="MIT License - Free to use and modify" FontSize="16" TextColor="{StaticResource PrimaryTextColor}"/>
+            </VerticalStackLayout>
+        </Frame>
+
     </VerticalStackLayout>
 
 </ContentPage>
