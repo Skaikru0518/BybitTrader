@@ -4,7 +4,179 @@
              x:Class="BybitTrader.Pages.CalculatorsPage"
              Title="Calculators"
              Background="{StaticResource GradientBackground}">
-    <VerticalStackLayout Padding="20">
-        <Label Text="Calculators Page" FontSize="24" HorizontalOptions="Center"/>
+
+    <VerticalStackLayout Padding="20" Spacing="10">
+
+        <!-- Tab Navigation (Button Selector) -->
+        <HorizontalStackLayout HorizontalOptions="Center">
+            <Button Text="Entry Calculator" Clicked="ShowEntryCalculator" BackgroundColor="{StaticResource PurpleButton}" TextColor="White"/>
+            <Button Text="TP/SL Calculator" Clicked="ShowTPSLCalculator" BackgroundColor="{StaticResource PurpleButton}" TextColor="White" Margin="10,0,0,0"/>
+            <Button Text="Order by Value" Clicked="ShowOrderByValueCalculator" BackgroundColor="{StaticResource PurpleButton}" TextColor="White" Margin="10,0,0,0"/>
+        </HorizontalStackLayout>
+
+        <!-- Entry Calculator -->
+        <Grid x:Name="EntryCalculatorGrid" IsVisible="True" HorizontalOptions="Center" WidthRequest="600">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Text="Entry Calculator" FontSize="24" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center" Grid.ColumnSpan="2" Grid.Row="0" Margin="0,100,0,20"/>
+
+            <Label Text="Current Position Size" FontSize="16" TextColor="{StaticResource SecondaryTextColor}" Grid.Row="1" Grid.Column="0" Margin="0,0,10,15"/>
+            <Entry x:Name="CurrentPositionSizeEntry" Placeholder="Enter current position size" Keyboard="Numeric" BackgroundColor="{StaticResource CardBackground}" TextColor="{StaticResource PrimaryTextColor}" Grid.Row="2" Grid.Column="0" Margin="0,0,15,15"/>
+
+            <Label Text="First Entry Price" FontSize="16" TextColor="{StaticResource SecondaryTextColor}" Grid.Row="3" Grid.Column="0" Margin="0,0,10,15"/>
+            <Entry x:Name="FirstEntryPriceEntry" Placeholder="Enter first entry price" Keyboard="Numeric" BackgroundColor="{StaticResource CardBackground}" TextColor="{StaticResource PrimaryTextColor}" Grid.Row="4" Grid.Column="0" Margin="0,0,15,15"/>
+
+            <Label Text="New Position Size" FontSize="16" TextColor="{StaticResource SecondaryTextColor}" Grid.Row="1" Grid.Column="1" Margin="0,0,10,15"/>
+            <Entry x:Name="NewPositionSizeEntry" Placeholder="Enter new position size" Keyboard="Numeric" BackgroundColor="{StaticResource CardBackground}" TextColor="{StaticResource PrimaryTextColor}" Grid.Row="2" Grid.Column="1" Margin="0,0,15,15"/>
+
+            <Label Text="New Entry Price" FontSize="16" TextColor="{StaticResource SecondaryTextColor}" Grid.Row="3" Grid.Column="1" Margin="0,0,10,15"/>
+            <Entry x:Name="NewEntryPriceEntry" Placeholder="Enter new entry price" Keyboard="Numeric" BackgroundColor="{StaticResource CardBackground}" TextColor="{StaticResource PrimaryTextColor}" Grid.Row="4" Grid.Column="1" Margin="0,0,15,15"/>
+
+            <Button Text="Calculate" BackgroundColor="{StaticResource PurpleButton}" TextColor="White" Clicked="OnCalculateEntry" Grid.ColumnSpan="2" Grid.Row="5" Margin="0,20,0,20" WidthRequest="250"/>
+
+            <!-- Result Display -->
+            <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10" Margin="20,10,20,10" Grid.ColumnSpan="2" Grid.Row="6">
+                <Label x:Name="NewAverageEntryPriceLabel" Text="New Average Entry Price: -" FontSize="18" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center"/>
+            </Frame>
+        </Grid>
+
+        <!-- TP/SL Calculator -->
+        <Grid x:Name="TPSLCalculatorGrid" IsVisible="False" HorizontalOptions="Center" WidthRequest="600">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Text="TP/SL Calculator" FontSize="24" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center" Grid.ColumnSpan="2" Grid.Row="0" Margin="0,100,0,20"/>
+
+            <Label Text="Entry Price" FontSize="16" TextColor="{StaticResource SecondaryTextColor}" Grid.Row="1" Grid.Column="0" Margin="0,0,0,15"/>
+            <Entry x:Name="EntryPriceTPSL" Placeholder="Enter Entry Price" Keyboard="Numeric" BackgroundColor="{StaticResource CardBackground}" TextColor="{StaticResource PrimaryTextColor}" Grid.Row="2" Grid.Column="0" Margin="0,0,15,0"/>
+
+            <Label Text="Invested Amount" FontSize="16" TextColor="{StaticResource SecondaryTextColor}" Grid.Row="1" Grid.Column="1" Margin="0,0,0,15"/>
+            <Entry x:Name="InvestedAmount" Placeholder="Enter Invested Amount" Keyboard="Numeric" BackgroundColor="{StaticResource CardBackground}" TextColor="{StaticResource PrimaryTextColor}" Grid.Row="2" Grid.Column="1" Margin="0,0,15,0"/>
+
+            <Label Text="Leverage" FontSize="16" TextColor="{StaticResource SecondaryTextColor}" Grid.Row="3" Grid.Column="0" Margin="0,0,0,15"/>
+            <Entry x:Name="Leverage" Placeholder="Enter Leverage" Keyboard="Numeric" BackgroundColor="{StaticResource CardBackground}" TextColor="{StaticResource PrimaryTextColor}" Grid.Row="4" Grid.Column="0" Margin="0,0,15,0"/>
+
+            <Label Text="Risk/Reward Ratio" FontSize="16" TextColor="{StaticResource SecondaryTextColor}" Grid.Row="3" Grid.Column="1" Margin="0,0,0,15"/>
+            <Entry x:Name="RiskRewardRatio" Placeholder="Enter RR Ratio" Keyboard="Numeric" BackgroundColor="{StaticResource CardBackground}" TextColor="{StaticResource PrimaryTextColor}" Grid.Row="4" Grid.Column="1" Margin="0,0,15,0"/>
+
+            <Label Text="Take Profit %" FontSize="16" TextColor="{StaticResource SecondaryTextColor}" Grid.Row="5" Grid.Column="0" Margin="0,0,0,15"/>
+            <Entry x:Name="TakeProfitPercent" Placeholder="Enter TP %" Keyboard="Numeric" BackgroundColor="{StaticResource CardBackground}" TextColor="{StaticResource PrimaryTextColor}" Grid.Row="6" Grid.Column="0" Margin="0,0,15,0"/>
+
+            <Label Text="Stop Loss %" FontSize="16" TextColor="{StaticResource SecondaryTextColor}" Grid.Row="5" Grid.Column="1" Margin="0,0,0,15"/>
+            <Entry x:Name="StopLossPercent" Placeholder="Enter SL %" Keyboard="Numeric" BackgroundColor="{StaticResource CardBackground}" TextColor="{StaticResource PrimaryTextColor}" Grid.Row="6" Grid.Column="1" Margin="0,0,15,0"/>
+
+            <Label Text="Filling in either TP% or SL% is required. The other can be calculated from the RR and the filled-in field." FontSize="14" TextColor="{StaticResource SecondaryTextColor}" Grid.Row="7" Grid.ColumnSpan="2" HorizontalOptions="Center" Margin="0,15,0,0"/>
+
+            <Button Text="Calculate" BackgroundColor="{StaticResource PurpleButton}" TextColor="White" Clicked="OnCalculateTPSL" Grid.ColumnSpan="2" Grid.Row="8" Margin="0,20,0,20" WidthRequest="250"/>
+
+            <!-- Results Box -->
+            <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10" Margin="20,10,20,10" Grid.ColumnSpan="2" Grid.Row="9">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <VerticalStackLayout Grid.Column="0" Grid.RowSpan="6" VerticalOptions="FillAndExpand">
+                        <Label Text="SL Price:" FontSize="16" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center" Margin="0,0,0,15"/>
+                        <Entry x:Name="SLPriceEntry" Text="-" FontSize="16" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center" IsReadOnly="True" BackgroundColor="Transparent" WidthRequest="250"/>
+
+                        <Label Text="TP Price:" FontSize="16" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center" Margin="0,10,0,15"/>
+                        <Entry x:Name="TPPriceEntry" Text="-" FontSize="16" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center" IsReadOnly="True" BackgroundColor="Transparent" WidthRequest="250" Margin="0,0,0,15"/>
+                    </VerticalStackLayout>
+
+                    <Label x:Name="CoinsPurchasedLabel" Text="Coins Purchased: -" FontSize="16" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center" Grid.Column="1" Grid.Row="0" Margin="0,15,0,0"/>
+                    <Label x:Name="PositionSizeLabel" Text="Position Size: -" FontSize="16" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center" Grid.Column="1" Grid.Row="1"/>
+                    <Label x:Name="TPMaxProfitLabel" Text="TP+ (Max Profit): -" FontSize="16" TextColor="Green" HorizontalOptions="Center" Grid.Column="1" Grid.Row="2"/>
+                    <Label x:Name="SLMaxLossLabel" Text="SL- (Max Loss): -" FontSize="16" TextColor="Red" HorizontalOptions="Center" Grid.Column="1" Grid.Row="3"/>
+                </Grid>
+            </Frame>
+        </Grid>
+
+        <!-- Order by Value Calculator -->
+        <Grid x:Name="OrderByValueCalculatorGrid" IsVisible="False" HorizontalOptions="Center" WidthRequest="600">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Label Text="Order by Value Calculator" FontSize="24" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center" Grid.ColumnSpan="2" Grid.Row="0" Margin="0,100,0,20"/>
+
+            <Label Text="Entry Price" FontSize="16" TextColor="{StaticResource SecondaryTextColor}" Grid.Row="1" Grid.Column="0" Margin="0,0,0,15"/>
+            <Entry x:Name="EntryPriceOrderValue" Placeholder="Enter Entry Price" Keyboard="Numeric" BackgroundColor="{StaticResource CardBackground}" TextColor="{StaticResource PrimaryTextColor}" Grid.Row="2" Grid.Column="0" Margin="0,0,15,0"/>
+
+            <Label Text="Max Loss" FontSize="16" TextColor="{StaticResource SecondaryTextColor}" Grid.Row="1" Grid.Column="1" Margin="0,0,0,15"/>
+            <Entry x:Name="MaxLossOrderValue" Placeholder="Enter Max Loss" Keyboard="Numeric" BackgroundColor="{StaticResource CardBackground}" TextColor="{StaticResource PrimaryTextColor}" Grid.Row="2" Grid.Column="1" Margin="0,0,15,0"/>
+
+            <Label Text="Leverage" FontSize="16" TextColor="{StaticResource SecondaryTextColor}" Grid.Row="3" Grid.Column="0" Margin="0,15,0,15"/>
+            <Entry x:Name="LeverageOrderValue" Placeholder="Enter Leverage" Keyboard="Numeric" BackgroundColor="{StaticResource CardBackground}" TextColor="{StaticResource PrimaryTextColor}" Grid.Row="4" Grid.Column="0" Margin="0,0,15,0"/>
+
+            <Label Text="Stop Loss Price" FontSize="16" TextColor="{StaticResource SecondaryTextColor}" Grid.Row="3" Grid.Column="1" Margin="0,15,0,15"/>
+            <Entry x:Name="SLPriceOrderValue" Placeholder="Enter SL Price" Keyboard="Numeric" BackgroundColor="{StaticResource CardBackground}" TextColor="{StaticResource PrimaryTextColor}" Grid.Row="4" Grid.Column="1" Margin="0,0,15,0"/>
+
+            <Button Text="Calculate" BackgroundColor="{StaticResource PurpleButton}" TextColor="White" Clicked="OnCalculateOrderByValue" Grid.ColumnSpan="2" Grid.Row="5" Margin="0,20,0,20" WidthRequest="250"/>
+
+            <!-- Result Display -->
+            <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10" Margin="20,10,20,10" Grid.ColumnSpan="2" Grid.Row="6">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Text="Order by Value:" FontSize="18" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center" Grid.Column="0" Grid.Row="0" Margin="0,15,0,15"/>
+                    <Entry x:Name="OrderByValueValue" Placeholder="Order By Value" Keyboard="Numeric" BackgroundColor="{StaticResource CardBackground}" Grid.Column="1" Grid.Row="0" IsReadOnly="True" Text="-"></Entry>
+                    <Label Text="Margin Required:" FontSize="18" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center" Grid.Column="0" Grid.Row="1" Margin="0,15,0,15"/>
+                    <Entry x:Name="MarginRequiredValue" Placeholder="Required Margin" Keyboard="Numeric" BackgroundColor="{StaticResource CardBackground}" Grid.Column="1" Grid.Row="1" IsReadOnly="True" Text="-"></Entry>
+                </Grid>
+            </Frame>
+        </Grid>
+
     </VerticalStackLayout>
+
 </ContentPage>
