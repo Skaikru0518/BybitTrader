@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BybitTrader.MainPage"
+             Background="{StaticResource GradientBackground}">
+
+    <Grid Padding="20" ColumnDefinitions="Auto,*">
+        <!-- Dashboard (csak ha az API kulcsok el vannak mentve) -->
+        <Grid x:Name="DashboardSection" IsVisible="False" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- SIDEBAR - Bal oldalon -->
+            <Frame Grid.Column="0" VerticalOptions="FillAndExpand" CornerRadius="10" BackgroundColor="{StaticResource CardBackground}" Padding="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <VerticalStackLayout x:Name="Sidebar" BackgroundColor="{StaticResource CardBackground}" Padding="15" Grid.Row="0">
+                        <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10">
+                            <VerticalStackLayout>
+                                <Label Text="Bybit WSS" FontSize="16" TextColor="{StaticResource SecondaryTextColor}" HorizontalOptions="Center"/>
+                                <HorizontalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                                    <BoxView x:Name="ConnectionStatusIndicator" WidthRequest="12" HeightRequest="12" CornerRadius="6" BackgroundColor="Red"/>
+                                    <Label x:Name="ConnectionStatusLabel" Text="Disconnected" TextColor="Red" FontSize="16" VerticalOptions="Center" Margin="10,0,0,0"/>
+                                </HorizontalStackLayout>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </VerticalStackLayout>
+
+                    <!-- API CONNECTION STATUS -->
+                    <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10" Grid.Row="1" WidthRequest="220" Margin="0,0,0,15">
+                        <VerticalStackLayout>
+                            <Label Text="BybitAPI Connection" FontSize="16" TextColor="{StaticResource SecondaryTextColor}"/>
+                            <Label x:Name="ApiConnectionLabel" Text="Not Connected" FontSize="16" TextColor="Red"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!--TRADINGVIEW API STATUS-->
+                    <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10" Grid.Row="2" WidthRequest="220">
+                        <VerticalStackLayout>
+                            <Label Text="Tradingview Connection" FontSize="16" TextColor="{StaticResource SecondaryTextColor}"/>
+                            <Label x:Name="ApiConnectionLabel" Text="Not Connected" FontSize="16" TextColor="Red"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- WALLET BALANCE -->
+                    <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10" Grid.Row="3" Margin="0,40,0,15" WidthRequest="220">
+                        <VerticalStackLayout>
+                            <Label Text="Wallet Balance" FontSize="16" TextColor="{StaticResource SecondaryTextColor}"/>
+                            <Label x:Name="WalletBalanceLabel" Text="0 USDT" FontSize="16" TextColor="{StaticResource PrimaryTextColor}"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- OPEN TRADES -->
+                    <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10" Grid.Row="4" Margin="0,0,0,15" WidthRequest="220">
+                        <VerticalStackLayout>
+                            <Label Text="Currently Open Trades" FontSize="16" TextColor="{StaticResource SecondaryTextColor}"/>
+                            <Label x:Name="OpenTradesLabel" Text="0" FontSize="18" TextColor="{StaticResource PrimaryTextColor}"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- AVAILABLE MARGIN -->
+                    <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10" Grid.Row="5" Margin="0,0,0,15" WidthRequest="220">
+                        <VerticalStackLayout>
+                            <Label Text="Available Margin" FontSize="16" TextColor="{StaticResource SecondaryTextColor}"/>
+                            <Label x:Name="AvailableMarginLabel" Text="0 USDT" FontSize="16" TextColor="{StaticResource PrimaryTextColor}"/>
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <!-- ACCOUNT RISK LEVEL -->
+                    <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10" Grid.Row="6" Margin="0,0,0,15" WidthRequest="220">
+                        <VerticalStackLayout>
+                            <Label Text="Account Risk Level" FontSize="16" TextColor="{StaticResource SecondaryTextColor}"/>
+                            <Label x:Name="RiskLevelLabel" Text="Low" FontSize="16" TextColor="Green" />
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <Button Text="Logout" BackgroundColor="{StaticResource PurpleButton}" TextColor="White"
+                            Clicked="OnLogoutClicked" WidthRequest="150" Margin="0,0,0,10" VerticalOptions="End" Grid.Row="7"/>
+                </Grid>
+            </Frame>
+
+            <!-- Dashboard Tartalom -->
+            <Grid Grid.Column="1" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <!--<Label Text="Dashboard" FontSize="24" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center" Grid.Row="0"/>-->
+                <WebView x:Name="TradingViewChart" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="1" Margin="20,0,0,0"/>
+            </Grid>
+        </Grid>
+
+        <!-- API kulcsok beírása (csak ha nincs elmentve) -->
+        <VerticalStackLayout x:Name="LoginSection" IsVisible="False" Padding="20" HorizontalOptions="Center" VerticalOptions="Center" Grid.ColumnSpan="2">
+            <Label Text="Bybit API Login" FontSize="24" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center"/>
+
+            <Entry x:Name="ApiKeyEntry" Placeholder="API Key" WidthRequest="300" Margin="0,10,0,10"/>
+            <Entry x:Name="ApiSecretEntry" Placeholder="API Secret" WidthRequest="300" Margin="0,10,0,10" IsPassword="True"/>
+
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <CheckBox x:Name="SaveCredentialsCheckBox"/>
+                <Label Text="Save API Keys" FontSize="14" TextColor="{StaticResource PrimaryTextColor}" VerticalOptions="Center"/>
+            </HorizontalStackLayout>
+
+            <Button Text="Login" BackgroundColor="{StaticResource PurpleButton}" TextColor="White"
+                Clicked="OnLoginClicked" WidthRequest="300" Margin="0,20,0,0" VerticalOptions="EndAndExpand"/>
+        </VerticalStackLayout>
+
+    </Grid>
+</ContentPage>
+

@@ -1,0 +1,33 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:BybitTrader"
+             x:Class="BybitTrader.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- Alap színek -->
+            <Color x:Key="PrimaryTextColor">#ffffff</Color>
+            <Color x:Key="SecondaryTextColor">#cccccc</Color>
+            <Color x:Key="PositiveColor">#00ff99</Color>
+            <Color x:Key="NegativeColor">#ff4444</Color>
+            <Color x:Key="InfoColor">#0099ff</Color>
+            <Color x:Key="CardBackground">#1a1a3c</Color>
+            <!--Gomb Színek-->
+            <Color x:Key="PurpleButton">#6b05de</Color>
+            <!--Háttér-->
+            <LinearGradientBrush x:Key="GradientBackground">
+                <GradientStop Color="#130f40" Offset="0.0"></GradientStop>
+                <GradientStop Color="#000000" Offset="1.0"></GradientStop>
+            </LinearGradientBrush>
+            <!--global app háttérszín-->
+            <Style TargetType="Shell">
+                <Setter Property="Background" Value="{StaticResource GradientBackground}"/>
+            </Style>
+            
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
