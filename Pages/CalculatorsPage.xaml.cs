@@ -122,7 +122,7 @@ public partial class CalculatorsPage : ContentPage
 
 
         }
-        catch (Exception ex)
+        catch
         {
             DisplayAlert("Error", "An unexpected error occured, please try again.", "OK");
         }
@@ -166,7 +166,7 @@ public partial class CalculatorsPage : ContentPage
             MarginRequiredValue.Text = marginRequired.ToString();
 
         }
-        catch (Exception ex)
+        catch
         {
             DisplayAlert("Error", "An unexpected error occured, please try again.", "OK");
         }

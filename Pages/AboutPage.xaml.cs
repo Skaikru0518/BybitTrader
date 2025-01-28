@@ -1,3 +1,5 @@
+using System.Reflection;
+
 namespace BybitTrader.Pages;
 
 public partial class AboutPage : ContentPage
@@ -10,8 +12,16 @@ public partial class AboutPage : ContentPage
 
     private void LoadAppVersion()
     {
-        // App verzió lekérése és beállítása
-        string version = AppInfo.Current.VersionString;
-        AppVersionLabel.Text = $"Version: {version}";
+        var version = Assembly.GetExecutingAssembly().GetName().Version;
+        if (version != null)
+        {
+            var buildNumber = version.Build;
+            AppVersionLabel.Text = $"Version: {version}, Build: {buildNumber}";
+        }
+        else
+        {
+            AppVersionLabel.Text = "Version: 1.0.0.0, Build: 0";
+        }
     }
 }
+

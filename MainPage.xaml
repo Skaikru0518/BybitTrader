@@ -23,6 +23,7 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
 
@@ -86,8 +87,17 @@
                         </VerticalStackLayout>
                     </Frame>
 
+                    <Button x:Name="UpdateButton"
+                        Text="No updates Available"
+                        Clicked="btnUpdateClick"
+                        BackgroundColor="Gray"
+                        TextColor="White"
+                        IsEnabled="False"
+                        Margin="10"
+                        Grid.Row="7"/>
+
                     <Button Text="Logout" BackgroundColor="{StaticResource PurpleButton}" TextColor="White"
-                            Clicked="OnLogoutClicked" WidthRequest="150" Margin="0,0,0,10" VerticalOptions="End" Grid.Row="7"/>
+                            Clicked="OnLogoutClicked" WidthRequest="150" Margin="0,0,0,10" VerticalOptions="End" Grid.Row="8"/>
                 </Grid>
             </Frame>
 

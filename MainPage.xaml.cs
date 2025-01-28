@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using BybitTrader.Components;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace BybitTrader
@@ -6,10 +7,17 @@ namespace BybitTrader
     public partial class MainPage : ContentPage
     {
         private bool isPulsating = false;
+        private UpdateManager _updateManager;
 
         public MainPage()
         {
             InitializeComponent();
+            _updateManager = new UpdateManager();
+
+            // Frissítés elérhetőségének ellenőrzése indításkor
+            _updateManager.UpdateAvailable += OnUpdateAvailable;
+            _updateManager.UpdateFailed += OnUpdateFailed;
+
             LoadSavedCredentials();
             LoadTradingViewChart();
         }
@@ -64,10 +72,8 @@ namespace BybitTrader
             }
 
             Debug.WriteLine("🔑 Bejelentkezés sikeres.");
-
             LoginSection.IsVisible = false;
             DashboardSection.IsVisible = true;
-
         }
 
         private void OnLogoutClicked(Object sender, EventArgs e)
@@ -75,6 +81,46 @@ namespace BybitTrader
             Debug.WriteLine("🚪 Kijelentkezés. Visszatérés a bejelentkezési oldalra.");
             LoginSection.IsVisible = true;
             DashboardSection.IsVisible = false;
+        }
+
+        private async void btnUpdateClick(Object sender, EventArgs e)
+        {
+            if (_updateManager.IsUpdateAvailable)
+            {
+                await _updateManager.DownloadAndUpdate();
+            }
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            await CheckForUpdates();
+        }
+
+        private async Task CheckForUpdates()
+        {
+            await _updateManager.CheckForUpdates();
+        }
+
+        private void OnUpdateAvailable(string latestVersion)
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                UpdateButton.Text = $"Update to v{latestVersion}";
+                UpdateButton.IsEnabled = true;
+                UpdateButton.BackgroundColor = Color.FromArgb("#6b005de");
+            });
+        }
+
+        private void OnUpdateFailed(string errorMessage)
+        {
+            Debug.WriteLine($"❌ Update check failed: {errorMessage}");
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                UpdateButton.Text = "No updates available";
+                UpdateButton.IsEnabled = false;
+                UpdateButton.BackgroundColor = Colors.Gray;
+            });
         }
 
         private void UpdateConnectionStatus(bool isConnected)
@@ -125,7 +171,7 @@ namespace BybitTrader
         private void StopPulsatingEffect()
         {
             isPulsating = false;
-            ConnectionStatusIndicator.ScaleTo(1.0, 500, Easing.Linear); // Reset scale to default
+            ConnectionStatusIndicator.ScaleTo(1.0, 500, Easing.Linear);
         }
 
         private void LoadTradingViewChart()
