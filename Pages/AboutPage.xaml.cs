@@ -12,11 +12,12 @@ public partial class AboutPage : ContentPage
 
     private void LoadAppVersion()
     {
-        var version = Assembly.GetExecutingAssembly().GetName().Version;
+        //var version = Assembly.GetExecutingAssembly().GetName().Version;
+        var version = AppInfo.Current.VersionString;
         if (version != null)
         {
-            var buildNumber = version.Build;
-            AppVersionLabel.Text = $"Version: {version}, Build: {buildNumber}";
+            
+            AppVersionLabel.Text = $"Version: {version}";
         }
         else
         {
