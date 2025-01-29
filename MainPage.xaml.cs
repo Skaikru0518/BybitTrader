@@ -1,4 +1,5 @@
 ﻿using BybitTrader.Components;
+using BybitTrader.Pages;
 using Microsoft.Maui.Controls.Compatibility.Platform;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
@@ -11,23 +12,19 @@ namespace BybitTrader
         private UpdateManager _updateManager;
         private TradingViewChart _tradingViewChart;
 
-
         public MainPage()
         {
             InitializeComponent();
             _updateManager = new UpdateManager();
 
-
             // tradingview integration
             LoadTradingViewChart();
 
-
             // Frissítés elérhetőségének ellenőrzése indításkor
-            _updateManager.UpdateAvailable += OnUpdateAvailable;
-            _updateManager.UpdateFailed += OnUpdateFailed;
+            _updateManager.UpdateAvailable += (latestVersion) => Debug.WriteLine($"Update available: {latestVersion}");
+            _updateManager.UpdateFailed += (errorMessage) => Debug.WriteLine($"Update check failed: {errorMessage}");
 
             LoadSavedCredentials();
-            
         }
 
         private void LoadSavedCredentials()
@@ -91,11 +88,61 @@ namespace BybitTrader
             DashboardSection.IsVisible = false;
         }
 
-        private async void btnUpdateClick(Object sender, EventArgs e)
+        private async void btnUpdateClick(object sender, EventArgs e)
         {
-            if (_updateManager.IsUpdateAvailable)
+            try
             {
+                UpdateButton.Text = "Updating...";
+                UpdateButton.BackgroundColor = Colors.Orange;
+                UpdateButton.IsEnabled = false;
+                UpdateActivityIndicator.IsRunning = true;
+                UpdateActivityIndicator.IsVisible = true;
+
                 await _updateManager.DownloadAndUpdate();
+
+                UpdateButton.Text = "Update Completed";
+                UpdateButton.BackgroundColor = Colors.Gray;
+                UpdateActivityIndicator.IsRunning = false;
+                UpdateActivityIndicator.IsVisible = false;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"❌ Update failed: {ex.Message}");
+                UpdateButton.Text = "Update Failed";
+                UpdateButton.BackgroundColor = Colors.Red;
+                UpdateActivityIndicator.IsRunning = false;
+                UpdateActivityIndicator.IsVisible = false;
+            }
+        }
+
+        private async Task CheckForUpdates()
+        {
+            try
+            {
+                await _updateManager.CheckForUpdates();
+                if (_updateManager.IsUpdateAvailable)
+                {
+                    UpdateButton.Text = "Update Available";
+                    UpdateButton.BackgroundColor = Colors.Green;
+                    UpdateButton.IsEnabled = true;
+                }
+                else
+                {
+                    UpdateButton.Text = "No updates available";
+                    UpdateButton.BackgroundColor = Colors.Gray;
+                    UpdateButton.IsEnabled = false;
+                }
+                UpdateActivityIndicator.IsRunning = false;
+                UpdateActivityIndicator.IsVisible = false;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"❌ Update check failed: {ex.Message}");
+                UpdateButton.Text = "Update Check Failed";
+                UpdateButton.BackgroundColor = Colors.Red;
+                UpdateButton.IsEnabled = false;
+                UpdateActivityIndicator.IsRunning = false;
+                UpdateActivityIndicator.IsVisible = false;
             }
         }
 
@@ -103,32 +150,6 @@ namespace BybitTrader
         {
             base.OnAppearing();
             await CheckForUpdates();
-        }
-
-        private async Task CheckForUpdates()
-        {
-            await _updateManager.CheckForUpdates();
-        }
-
-        private void OnUpdateAvailable(string latestVersion)
-        {
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                UpdateButton.Text = $"Update to v{latestVersion}";
-                UpdateButton.IsEnabled = true;
-                UpdateButton.BackgroundColor = Color.FromArgb("#6b005de");
-            });
-        }
-
-        private void OnUpdateFailed(string errorMessage)
-        {
-            Debug.WriteLine($"❌ Update check failed: {errorMessage}");
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                UpdateButton.Text = "No updates available";
-                UpdateButton.IsEnabled = false;
-                UpdateButton.BackgroundColor = Colors.Gray;
-            });
         }
 
         private void UpdateConnectionStatus(bool isConnected)
@@ -191,8 +212,5 @@ namespace BybitTrader
                 _tradingViewChart.LoadChart();
             }
         }
-
     }
-                    
 }
-

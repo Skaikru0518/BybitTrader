@@ -96,6 +96,13 @@
                         Margin="10"
                         Grid.Row="7"/>
 
+                    <ActivityIndicator x:Name="UpdateActivityIndicator"
+                        IsRunning="False"
+                        IsVisible="False"
+                        Color="{StaticResource PrimaryTextColor}"
+                        Margin="10"
+                        Grid.Row="7"/>
+
                     <Button Text="Logout" BackgroundColor="{StaticResource PurpleButton}" TextColor="White"
                             Clicked="OnLogoutClicked" WidthRequest="150" Margin="0,0,0,10" VerticalOptions="End" Grid.Row="8"/>
                 </Grid>
@@ -130,4 +137,3 @@
 
     </Grid>
 </ContentPage>
-

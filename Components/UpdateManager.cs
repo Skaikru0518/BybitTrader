@@ -23,7 +23,7 @@ namespace BybitTrader.Components
 
             try
             {
-                using (HttpClient client = new HttpClient())
+                using (HttpClient client = new HttpClient { Timeout = TimeSpan.FromMinutes(2) })
                 {
                     client.DefaultRequestHeaders.Add("User-Agent", "BybitTrader-Updater");
 
@@ -53,6 +53,10 @@ namespace BybitTrader.Components
                     }
                 }
             }
+            catch (TaskCanceledException ex)
+            {
+                UpdateFailed?.Invoke($"⚠️ Update check timed out: {ex.Message}");
+            }
             catch (Exception ex)
             {
                 UpdateFailed?.Invoke($"⚠️ Error checking for updates: {ex.Message}");
@@ -70,7 +74,7 @@ namespace BybitTrader.Components
 
             try
             {
-                using (HttpClient client = new HttpClient())
+                using (HttpClient client = new HttpClient { Timeout = TimeSpan.FromMinutes(3) })
                 {
                     client.DefaultRequestHeaders.Add("User-Agent", "BybitTrader-Updater");
 
@@ -79,6 +83,7 @@ namespace BybitTrader.Components
                     {
                         byte[] fileBytes = await response.Content.ReadAsByteArrayAsync();
                         await File.WriteAllBytesAsync(newExePath, fileBytes);
+                        Debug.WriteLine("✅ Update downloaded successfully.");
                     }
                     else
                     {
@@ -97,7 +102,7 @@ set /a increment=100 / %total%
 
 :progress
 set /a progress+=1
-set /a percent=progress * increment / 100
+set /a percent=progress * 100 / %total%
 set bar=
 for /L %%i in (1,1,!progress!) do set bar=!bar!#
 for /L %%i in (!progress!,1,%total%) do set bar=!bar!-
@@ -117,19 +122,43 @@ del /f /q ""%~f0""
 exit
 ");
 
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = batchScriptPath,
-                    CreateNoWindow = false,
-                    UseShellExecute = false
-                });
+                Debug.WriteLine("✅ Batch script created successfully.");
 
-                Environment.Exit(0);
+                if (File.Exists(batchScriptPath))
+                {
+                    Debug.WriteLine("✅ Batch script file exists.");
+
+                    var process = Process.Start(new ProcessStartInfo
+                    {
+                        FileName = batchScriptPath,
+                        CreateNoWindow = false,
+                        UseShellExecute = false
+                    });
+
+                    if (process == null)
+                    {
+                        throw new Exception("Failed to start the update process.");
+                    }
+
+                    Debug.WriteLine("✅ Update process started successfully.");
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    throw new Exception("Batch script file does not exist.");
+                }
+            }
+            catch (TaskCanceledException ex)
+            {
+                UpdateFailed?.Invoke($"Update failed: The request timed out: {ex.Message}");
+                Debug.WriteLine($"❌ Update failed: The request timed out: {ex.Message}");
             }
             catch (Exception ex)
             {
                 UpdateFailed?.Invoke($"Update failed: {ex.Message}");
+                Debug.WriteLine($"❌ Update failed: {ex.Message}");
             }
         }
     }
 }
+
