@@ -8,7 +8,7 @@ namespace BybitTrader.Pages
         {
             InitializeComponent();
             LoadSettings();
-        }
+                    }
 
         private void LoadSettings()
         {
@@ -90,5 +90,7 @@ namespace BybitTrader.Pages
             Preferences.Set("webSocketAlerts", e.Value);
             Debug.WriteLine($"📡 WebSocket notifications: {(e.Value ? "Enabled" : "Disabled")}");
         }
+
+        
     }
 }

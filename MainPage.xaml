@@ -43,17 +43,17 @@
                     <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10" Grid.Row="1" WidthRequest="220" Margin="0,0,0,15">
                         <VerticalStackLayout>
                             <Label Text="BybitAPI Connection" FontSize="16" TextColor="{StaticResource SecondaryTextColor}"/>
-                            <Label x:Name="ApiConnectionLabel" Text="Not Connected" FontSize="16" TextColor="Red"/>
+                            <Label x:Name="ApiConnectionLabel" Text="Disconnected" FontSize="16" TextColor="Red"/>
                         </VerticalStackLayout>
                     </Frame>
 
                     <!--TRADINGVIEW API STATUS-->
-                    <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10" Grid.Row="2" WidthRequest="220">
+                    <!--<Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10" Grid.Row="2" WidthRequest="220">
                         <VerticalStackLayout>
                             <Label Text="Tradingview Connection" FontSize="16" TextColor="{StaticResource SecondaryTextColor}"/>
-                            <Label x:Name="TradingViewConnectionLabel" Text="Not Connected" FontSize="16" TextColor="Red"/>
+                            <Label x:Name="TradingViewConnectionLabel" Text="Disconnected" FontSize="16" TextColor="Red"/>
                         </VerticalStackLayout>
-                    </Frame>
+                    </Frame>-->
 
                     <!-- WALLET BALANCE -->
                     <Frame BackgroundColor="{StaticResource CardBackground}" Padding="10" CornerRadius="10" Grid.Row="3" Margin="0,40,0,15" WidthRequest="220">
@@ -108,7 +108,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <!--<Label Text="Dashboard" FontSize="24" TextColor="{StaticResource PrimaryTextColor}" HorizontalOptions="Center" Grid.Row="0"/>-->
-                <WebView x:Name="TradingViewChart" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="1" Margin="20,0,0,0"/>
+                <WebView x:Name="TradingViewWebView" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="1" Margin="15,0,0,0"/>
             </Grid>
         </Grid>
 

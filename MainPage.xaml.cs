@@ -1,4 +1,5 @@
 ﻿using BybitTrader.Components;
+using Microsoft.Maui.Controls.Compatibility.Platform;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
@@ -8,18 +9,25 @@ namespace BybitTrader
     {
         private bool isPulsating = false;
         private UpdateManager _updateManager;
+        private TradingViewChart _tradingViewChart;
+
 
         public MainPage()
         {
             InitializeComponent();
             _updateManager = new UpdateManager();
 
+
+            // tradingview integration
+            LoadTradingViewChart();
+
+
             // Frissítés elérhetőségének ellenőrzése indításkor
             _updateManager.UpdateAvailable += OnUpdateAvailable;
             _updateManager.UpdateFailed += OnUpdateFailed;
 
             LoadSavedCredentials();
-            LoadTradingViewChart();
+            
         }
 
         private void LoadSavedCredentials()
@@ -176,39 +184,15 @@ namespace BybitTrader
 
         private void LoadTradingViewChart()
         {
-            string htmlSource = @"
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset='utf-8'>
-            <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-            <script type='text/javascript' src='https://s3.tradingview.com/tv.js'></script>
-        </head>
-        <body>
-            <div id='tradingview_12345'></div>
-            <script type='text/javascript'> 
-                new TradingView.widget({
-                    'container_id': 'tradingview_12345',
-                    'autosize': true,
-                    'symbol': 'BYBIT:BTCUSDT',
-                    'interval': '60',
-                    'timezone': 'Etc/UTC',
-                    'theme': 'dark',
-                    'style': '1',
-                    'locale': 'en',
-                    'enable_publishing': true,
-                    'allow_symbol_change': true,
-                    'hideideas': true,
-                    'hide_top_toolbar': true
-                });
-            </script>
-        </body>
-        </html>";
-
-            TradingViewChart.Source = new HtmlWebViewSource
+            if (TradingViewWebView != null)
             {
-                Html = htmlSource
-            };
+                Debug.WriteLine("Tradingview inicializálása");
+                _tradingViewChart = new TradingViewChart(TradingViewWebView);
+                _tradingViewChart.LoadChart();
+            }
         }
+
     }
+                    
 }
+
